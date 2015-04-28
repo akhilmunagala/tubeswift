@@ -67,8 +67,6 @@ public class OAuthWebViewController : UIViewController, UIWebViewDelegate {
 	}
 	
 	public func webViewDidFinishLoad(webView: UIWebView) {
-		// TODO: parse title properly
-		//println(webView.request?.URLString)
 		if let authorization = OAuthAuthorization.parseFrom(webView: webView) {
 			switch authorization {
 			case .Request:
@@ -80,34 +78,6 @@ public class OAuthWebViewController : UIViewController, UIWebViewDelegate {
 			return
 		}
 		webView.delegate = nil
-		/*
-		let docTitleComponents = webView.stringByEvaluatingJavaScriptFromString("document.title")?.componentsSeparatedByString("=")
-		let count = docTitleComponents?.count ?? 0
-		let comparisonResult = docTitleComponents?.first?.caseInsensitiveCompare("Success code")
-		if let oauthCode = docTitleComponents?.last where count == 2 && comparisonResult == NSComparisonResult.OrderedSame  {
-			self.oauthWebViewController?.dismissViewControllerAnimated(true, completion: {
-				Alamofire.request(.POST, Settings.application.google.token_uri, parameters: [
-					"code":oauthCode,
-					"client_id":Settings.application.google.client_id,
-					"client_secret":Settings.application.google.client_secret,
-					"redirect_uri":Settings.application.google.redirect_uri,
-					"grant_type":"authorization_code"]).responseJSON(options: NSJSONReadingOptions.allZeros, completionHandler: { (request, response, result, error) -> Void in
-						if let tokenResponse = result as? [String: AnyObject], let accessToken = tokenResponse["access_token"] as? String {
-							let keychain = Keychain(service: "com.brightdigit.vimy")
-							for (key, value) in tokenResponse {
-								keychain[key] = "\(value)"
-							}
-							
-							Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = ["Authorization": "Bearer \(accessToken)"]
-							Alamofire.request(.GET, "https://www.googleapis.com/youtube/v3/channels", parameters : ["part" : "id", "mine" : "true"]).responseJSON(options: NSJSONReadingOptions.allZeros, completionHandler: { (request, response, result, error) -> Void in
-								println(response)
-								println(result)
-							})
-						}
-					})
-			})
-		}
-*/
 	}
 }
 

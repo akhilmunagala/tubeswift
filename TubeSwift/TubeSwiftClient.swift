@@ -11,14 +11,27 @@ public class TubeSwiftClient: NSObject {
 	
 	public let settings:Settings
 	public var oauth:OAuthClient!
-	internal var token:OAuthToken?
+	public var channels:ChannelsClient!
+	internal var token:OAuthToken? {
+		didSet {
+			if let aToken = token {
+				Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = ["Authorization": "Bearer \(aToken.access_token)"]
+			}
+		}
+	}
 	
 	public init (settings: Settings, token: OAuthToken? = nil) {
 		self.settings = settings
 		super.init()
 		
 		self.token = token
+		if let access_token = token?.access_token {
+			
+			Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = ["Authorization": "Bearer \(access_token)"]
+		}
+		
 		self.oauth = OAuthClient(client: self)
+		self.channels = ChannelsClient(client: self)
 	}
 	
 	public static func initialize (settings: Settings, token: OAuthToken? = nil) {

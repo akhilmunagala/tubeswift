@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B02037F1AEF2CC500DDC586 /* ResourcePart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B02037E1AEF2CC500DDC586 /* ResourcePart.swift */; };
+		7B0203811AEF2F3B00DDC586 /* ChannelsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0203801AEF2F3B00DDC586 /* ChannelsClient.swift */; };
 		7B152F891AEEA26000D46734 /* TubeSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B152F881AEEA26000D46734 /* TubeSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7B152F8F1AEEA26100D46734 /* TubeSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B152F831AEEA26000D46734 /* TubeSwift.framework */; };
 		7B152F961AEEA26100D46734 /* TubeSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B152F951AEEA26100D46734 /* TubeSwiftTests.swift */; };
@@ -29,6 +31,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7B02037E1AEF2CC500DDC586 /* ResourcePart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourcePart.swift; sourceTree = "<group>"; };
+		7B0203801AEF2F3B00DDC586 /* ChannelsClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelsClient.swift; sourceTree = "<group>"; };
 		7B152F831AEEA26000D46734 /* TubeSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TubeSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B152F871AEEA26000D46734 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7B152F881AEEA26000D46734 /* TubeSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TubeSwift.h; sourceTree = "<group>"; };
@@ -91,6 +95,8 @@
 				7B152FC01AEEABA600D46734 /* OAuthClient.swift */,
 				7B152FC21AEEB92000D46734 /* Scope.swift */,
 				7BDC3FF01AEF1A580008B886 /* OAuthToken.swift */,
+				7B02037E1AEF2CC500DDC586 /* ResourcePart.swift */,
+				7B0203801AEF2F3B00DDC586 /* ChannelsClient.swift */,
 			);
 			path = TubeSwift;
 			sourceTree = "<group>";
@@ -229,9 +235,11 @@
 			files = (
 				7B152FC11AEEABA600D46734 /* OAuthClient.swift in Sources */,
 				7B152FBB1AEEA3CA00D46734 /* Settings.swift in Sources */,
+				7B0203811AEF2F3B00DDC586 /* ChannelsClient.swift in Sources */,
 				7B152FB91AEEA37D00D46734 /* Alamofire.swift in Sources */,
 				7B152FBF1AEEAB4400D46734 /* TubeSwiftClient.swift in Sources */,
 				7B152FC31AEEB92000D46734 /* Scope.swift in Sources */,
+				7B02037F1AEF2CC500DDC586 /* ResourcePart.swift in Sources */,
 				7BDC3FF11AEF1A580008B886 /* OAuthToken.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
