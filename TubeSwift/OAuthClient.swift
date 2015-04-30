@@ -115,8 +115,6 @@ public class OAuthClient: NSObject {
 		}
 		
 		return nil
-		//destinationViewController.view.addSubview(webView)
-		
 	}
 	
 	public func requestToken (auth_code: String, completion: (NSURLRequest, NSURLResponse?, OAuthToken?, NSError?) -> Void) {
@@ -134,21 +132,6 @@ public class OAuthClient: NSObject {
 				} else {
 					completion(request, response, nil, NSError())
 				}
-//				completion(request, response, OAuthToken(result), error)
-				/*
-				if let tokenResponse = result as? [String: AnyObject], let accessToken = tokenResponse["access_token"] as? String {
-					let keychain = Keychain(service: "com.brightdigit.vimy")
-					for (key, value) in tokenResponse {
-						keychain[key] = "\(value)"
-					}
-					
-					Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = ["Authorization": "Bearer \(accessToken)"]
-					Alamofire.request(.GET, "https://www.googleapis.com/youtube/v3/channels", parameters : ["part" : "id", "mine" : "true"]).responseJSON(options: NSJSONReadingOptions.allZeros, completionHandler: { (request, response, result, error) -> Void in
-						println(response)
-						println(result)
-					})
-				}
-*/
 			})
 	}
 

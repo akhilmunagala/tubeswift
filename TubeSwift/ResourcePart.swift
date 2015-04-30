@@ -32,7 +32,12 @@ public enum ResourceFilter {
 
 public struct ResourcePaging {
 	public let maxResults:UInt
-	public let pageToken:String
+	public let pageToken:String?
+	
+	public init (maxResults: UInt, pageToken: String? = nil) {
+		self.maxResults = maxResults
+		self.pageToken = pageToken
+	}
 }
 
 public struct ResourceQuery {
@@ -63,8 +68,11 @@ public struct ResourceQuery {
 		}
 		if let paging = self.paging {
 			result["maxResults"] = paging.maxResults
-			result["pageToken"] = paging.pageToken
+			if let pageToken = paging.pageToken {
+				result["pageToken"] = pageToken
+			}
 		}
+		println(result)
 		return result
 	}
 }

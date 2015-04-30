@@ -21,7 +21,6 @@ public struct PlaylistSnippet {
 	public let channelTitle:String?
 	public let tags:[String]
 	public init?(result: [String:AnyObject]?) {
-		println(result)
 		if let publishAtStr = result?["publishedAt"] as? String,
 			let publishedAt =  _dateFormatter.dateFromString(publishAtStr),
 			let title = result?["title"] as? String,
@@ -84,7 +83,6 @@ public class PlaylistClient: NSObject {
 	
 	public func list (query: ResourceQuery, completion: (NSURLRequest, NSURLResponse?, Response<Playlist>?, NSError?) -> Void) {
 		request(.GET, "https://www.googleapis.com/youtube/v3/playlists", parameters: query.parameters).responseJSON(options: .allZeros) { (request, response, result, error) -> Void in
-			println(result)
 			if let aError = error {
 				completion(request, response, nil, aError)
 			} else if let clRes = Response<Playlist>(kind: YouTubeKind.PlaylistListResponse,result: result, itemFactory: {Playlist(result: $0)}) {

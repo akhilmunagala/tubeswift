@@ -134,7 +134,6 @@ public class ChannelClient: NSObject {
 	
 	public func list (query: ResourceQuery, completion: (NSURLRequest, NSURLResponse?, Response<Channel>?, NSError?) -> Void) {
 		request(.GET, channel_url, parameters: query.parameters).responseJSON(options: .allZeros) { (request, response, result, error) -> Void in
-			println(result)
 			if let aError = error {
 				completion(request, response, nil, aError)
 			} else if let clRes = Response<Channel>(kind: YouTubeKind.ChannelListResponse,result: result, itemFactory: {Channel(result: $0)}) {
