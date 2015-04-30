@@ -14,8 +14,8 @@ public struct Response<T>  {
 	typealias ItemFactory = [String:AnyObject] -> T?
 	public let etag:String
 	public let items:[T]
-	public let prevPageToken:String? = nil
-	public let nextPageToken:String? = nil
+	public let prevPageToken:String?
+	public let nextPageToken:String?
 	public let pageInfo:PageInfo
 	public let kind:YouTubeKind
 	
@@ -36,6 +36,8 @@ public struct Response<T>  {
 				self.etag = etag
 				self.pageInfo = pageInfo
 				self.items = items
+				self.prevPageToken = dictionary["prevPageToken"] as? String
+				self.nextPageToken = dictionary["nextPageToken"] as? String
 		} else {
 			return nil
 		}
