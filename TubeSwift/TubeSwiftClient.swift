@@ -11,7 +11,9 @@ public class TubeSwiftClient: NSObject {
 	
 	public let settings:Settings
 	public var oauth:OAuthClient!
-	public var channels:ChannelsClient!
+	public var channels:ChannelClient!
+	public var playlists:PlaylistClient!
+	public var subscriptions:SubscriptionClient!
 	internal var token:OAuthToken? {
 		didSet {
 			if let aToken = token {
@@ -31,7 +33,9 @@ public class TubeSwiftClient: NSObject {
 		}
 		
 		self.oauth = OAuthClient(client: self)
-		self.channels = ChannelsClient(client: self)
+		self.channels = ChannelClient(client: self)
+		self.playlists = PlaylistClient(client: self)
+		self.subscriptions = SubscriptionClient(client: self)
 	}
 	
 	public static func initialize (settings: Settings, token: OAuthToken? = nil) {

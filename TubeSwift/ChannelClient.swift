@@ -10,9 +10,45 @@ import UIKit
 
 public let channel_url = "https://www.googleapis.com/youtube/v3/channels"
 
+public struct Response<T>  {
+	typealias ItemFactory = [String:AnyObject] -> T?
+	public let etag:String
+	public let items:[T]
+	public let prevPageToken:String? = nil
+	public let nextPageToken:String? = nil
+	public let pageInfo:PageInfo
+	public let kind:YouTubeKind
+	
+	public init?(kind: YouTubeKind, result: AnyObject?, itemFactory : ItemFactory) {
+		if let dictionary = result as? [String:AnyObject],
+			let etag = dictionary["etag"] as? String,
+			let pageInfo = PageInfo(result:dictionary["pageInfo"]),
+			let itemObjs = (dictionary["items"] as? [[String:AnyObject]]){
+				var items = [T]()
+				for obj in itemObjs {
+					if let channel = itemFactory(obj) {
+						items.append(channel)
+					} else {
+						return nil
+					}
+				}
+				self.kind = kind
+				self.etag = etag
+				self.pageInfo = pageInfo
+				self.items = items
+		} else {
+			return nil
+		}
+	}
+}
+
 public enum YouTubeKind:String {
 	case ChannelListResponse = "youtube#channelListResponse"
 	case Channel = "youtube#channel"
+	case PlaylistListResponse = "youtube#playlistListResponse"
+	case SubscriptionListResponse = "youtube#subscriptionListResponse"
+	case Playlist = "youtube#playlist"
+	case Subscription = "youtube#subscription"
 }
 
 public struct RelatedPlaylists {
@@ -39,7 +75,7 @@ public struct RelatedPlaylists {
 	}
 }
 
-public struct ContentDetails {
+public struct ChannelContentDetails {
 	public let googlePlusUserId:String
 	public let relatedPlaylists:RelatedPlaylists
 	public init?(result: [String:AnyObject]?) {
@@ -57,13 +93,13 @@ public struct ContentDetails {
 public struct Channel {
 	public let etag:String
 	public let id:String
-	public let contentDetails:ContentDetails
+	public let contentDetails:ChannelContentDetails
 	public let kind:YouTubeKind = YouTubeKind.Channel
 	
 	public init?(result: [String:AnyObject]) {
 		if let etag = result["etag"] as? String,
 			let id = result["id"] as? String,
-			let contentDetails = ContentDetails(result: result["contentDetails"] as? [String:AnyObject]) {
+			let contentDetails = ChannelContentDetails(result: result["contentDetails"] as? [String:AnyObject]) {
 				self.etag = etag
 				self.id = id
 				self.contentDetails = contentDetails
@@ -89,49 +125,19 @@ public struct PageInfo {
 	}
 }
 
-public struct ChannelListResponse {
-	public let etag:String
-	public let kind:YouTubeKind = YouTubeKind.ChannelListResponse
-	public let items:[Channel]
-	public let prevPageToken:String? = nil
-	public let nextPageToken:String? = nil
-	public let pageInfo:PageInfo
-	
-	public init?(result: AnyObject?) {
-		if let dictionary = result as? [String:AnyObject],
-			let etag = dictionary["etag"] as? String,
-			let pageInfo = PageInfo(result:dictionary["pageInfo"]),
-			let itemObjs = (dictionary["items"] as? [[String:AnyObject]]){
-				var items = [Channel]()
-				for obj in itemObjs {
-					if let channel = Channel(result: obj) {
-						items.append(channel)
-					} else {
-						return nil
-					}
-				}
-				self.etag = etag
-				self.pageInfo = pageInfo
-				self.items = items
-		} else {
-			return nil
-		}
-	}
-}
-
-public class ChannelsClient: NSObject {
+public class ChannelClient: NSObject {
 	public let client: TubeSwiftClient
 	
 	public init (client: TubeSwiftClient) {
 		self.client = client
 	}
 	
-	public func list (query: ResourceQuery, completion: (NSURLRequest, NSURLResponse?, ChannelListResponse?, NSError?) -> Void) {
+	public func list (query: ResourceQuery, completion: (NSURLRequest, NSURLResponse?, Response<Channel>?, NSError?) -> Void) {
 		request(.GET, channel_url, parameters: query.parameters).responseJSON(options: .allZeros) { (request, response, result, error) -> Void in
 			println(result)
 			if let aError = error {
 				completion(request, response, nil, aError)
-			} else if let clRes = ChannelListResponse(result: result) {
+			} else if let clRes = Response<Channel>(kind: YouTubeKind.ChannelListResponse,result: result, itemFactory: {Channel(result: $0)}) {
 				completion(request, response, clRes, nil)
 			} else {
 				completion(request, response, nil, NSError())

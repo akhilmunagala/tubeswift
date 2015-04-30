@@ -18,7 +18,8 @@ public enum ResourcePart : String {
 	Snippet = "snippet",
 	Statistics = "statistics",
 	Status = "status",
-	TopicDetail = "topicDetails"
+	TopicDetail = "topicDetails",
+	SubscriberSnippet = "subscriberSnippet"
 }
 
 public enum ResourceFilter {
