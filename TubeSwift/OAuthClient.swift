@@ -98,6 +98,7 @@ public class OAuthClient: NSObject {
 					completion(request, response, nil, aError)
 				}
 				else if let token = OAuthToken.parse(result, refresh_token: refresh_token) {
+					self.client.token = token
 					completion(request, response, token, nil)
 				} else {
 					completion(request, response, nil, NSError())
